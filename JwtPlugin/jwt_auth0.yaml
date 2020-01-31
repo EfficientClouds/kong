@@ -1,0 +1,27 @@
+apiVersion: configuration.konghq.com/v1
+kind: KongConsumer
+metadata:
+  name: anonymous
+username: anonymous
+---
+apiVersion: configuration.konghq.com/v1
+kind: KongCredential
+metadata:
+  name: credential-jwt
+type: jwt
+consumerRef: anonymous
+config:
+  key: https://<your auth0Domain>/
+  algorithm: RS256
+#to get the public key you need to run the following command:
+#curl https:/<your auth0Domain>/ | openssl x509 -pubkey -noout
+  rsa_public_key: |
+    -----BEGIN PUBLIC KEY-----
+    put your auth0 public key here
+    -----END PUBLIC KEY-----
+---
+apiVersion: configuration.konghq.com/v1
+kind: KongPlugin
+metadata:
+  name: jwt
+plugin: jwt
